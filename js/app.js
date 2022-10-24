@@ -116,11 +116,3 @@ btnAgregar.onclick = () => {
     salirPanelPop();
   };
 };
-// //Funcion Remover nota
-// const remover = (nota) => {
-//   let scanId = nota.length;
-// }
-// const btnX = document.querySelector(".btnX");
-// btnX.onclick = (e) => {
-//   console.log(target.value);
-//}
