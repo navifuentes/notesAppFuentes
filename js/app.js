@@ -46,7 +46,6 @@ const imprimirNotas = (array) => {
   });
   return array;
 };
-imprimirNotas(listaDeNotas);
 // Funcion Pasar Nueva nota a localStorage
 const notaNuevaStorage = () => {
   let titulo = document.querySelector("#notaInputTitulo").value;
