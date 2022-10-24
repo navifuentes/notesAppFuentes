@@ -10,12 +10,23 @@ const ordenarNotasAlfabeticamente = () =>
       return 0;
     }
   });
-//Ordenar por Fecha
+//Ordenar por Fecha Latest added
 const ordenarNotasPorFecha = () =>
   listaDeNotas.sort((a, b) => {
     if (a.fecha > b.fecha) {
       return -1;
     } else if (b.fecha > a.fecha) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+//Ordenar por fecha New added
+const ordenarNotasPorAdd = () =>
+  listaDeNotas.sort((a, b) => {
+    if (b.fecha > a.fecha) {
+      return -1;
+    } else if (a.fecha > b.fecha) {
       return 1;
     } else {
       return 0;
@@ -29,11 +40,17 @@ selector.onchange = (e) => {
     limpiarPanel();
     ordenarNotasPorFecha();
     buscarTexto(busqueda.value);
+    imprimirNotas(listaDeNotas);
   } else if (sort === 2) {
     limpiarPanel();
     ordenarNotasAlfabeticamente();
-    imprimirNotas(listaDeNotas);
     buscarTexto(busqueda.value);
+    imprimirNotas(listaDeNotas);
+  } else if (sort === 1) {
+    limpiarPanel();
+    ordenarNotasPorAdd();
+    buscarTexto(busqueda.value);
+    imprimirNotas(listaDeNotas);
   }
 };
 
@@ -50,6 +67,8 @@ function buscarTexto(txt) {
     ordenarNotasPorFecha();
   } else if (selector.selectedIndex === 2) {
     ordenarNotasAlfabeticamente();
+  } else if (selector.selectedIndex === 1) {
+    ordenarNotasPorAdd();
   }
   listaDeNotas.forEach((nota) => {
     //Pasar los strings a minuscula
