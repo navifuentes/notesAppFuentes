@@ -26,12 +26,12 @@ const imprimirNotas = (array) => {
     let notaScanBtnDiv = document.createElement("div");
     notaScanBtnDiv.setAttribute("class", "btnDiv");
     let notaScanBtnX = document.createElement("button");
-    notaScanBtnX.setAttribute("class","btnX");
+    notaScanBtnX.setAttribute("class", "btnX");
     notaScanBtnX.innerHTML = "❌";
-    let notaScanBtnEdit = document.createElement("button")
-    notaScanBtnEdit.setAttribute("class","btnEdit");
+    let notaScanBtnEdit = document.createElement("button");
+    notaScanBtnEdit.setAttribute("class", "btnEdit");
     notaScanBtnEdit.innerHTML = "🖊";
-    notaScanBtnDiv.append(notaScanBtnEdit);  
+    notaScanBtnDiv.append(notaScanBtnEdit);
     notaScanBtnDiv.append(notaScanBtnX);
     notaScan.append(notaScanBtnDiv);
     let notaScanTitulo = document.createElement("div");
@@ -46,6 +46,7 @@ const imprimirNotas = (array) => {
   });
   return array;
 };
+imprimirNotas(listaDeNotas);
 // Funcion Pasar Nueva nota a localStorage
 const notaNuevaStorage = () => {
   let titulo = document.querySelector("#notaInputTitulo").value;
@@ -62,13 +63,13 @@ const notasSinImprimir = () => {
   if (panel.childElementCount === 1) {
     imprimirNotas(listaDeNotas);
   } else if (panel.childElementCount > 1) {
-    let checkNota = panel.lastChild;    
+    let checkNota = panel.lastChild;
     let checkNotaId = parseInt(checkNota.getAttribute("id")) + 1;
-    if (checkNotaId < listaDeNotas.length ) {
+    if (checkNotaId < listaDeNotas.length) {
       limpiarPanel();
       imprimirNotas(listaDeNotas);
 
-/*       let listaSinImpr = listaDeNotas.splice(checkNotaId);
+      /*       let listaSinImpr = listaDeNotas.splice(checkNotaId);
       limpiarPanel();
       let reListaDeNotas = listaDeNotas.concat(listaSinImpr);
       imprimirNotas(reListaDeNotas)
