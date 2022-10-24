@@ -1,0 +1,18 @@
+//Utilities
+@import "./utilities/variables";
+@import "./utilities/typo";
+@import "./utilities/keyframes";
+
+//Base
+@import "./base/reset";
+
+
+//Layout
+@import "./layout/header";
+@import "./layout/grid";
+@import "./layout/footer";
+
+//Components
+@import "./components/notas";
+@import "./components/botones";
+@import "./components/notaInput";

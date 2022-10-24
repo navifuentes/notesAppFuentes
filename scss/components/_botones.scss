@@ -1,0 +1,22 @@
+#botonAgregar {
+  height: 40vh;
+  width: 22vw;
+  margin: 0 1.5vw;
+  background-color: $colorBtnAgregar;
+  color: $colorBtnAgregarSec;
+  border-radius: 40%;
+  size: 8rem;
+  font-size: 6rem;
+  border: 2px solid;
+  filter: drop-shadow(0.5rem 0.5rem 0.5rem #585858);
+}
+#botonAgregar:active {
+  transform: translate(0.5vw, 0.5vh);
+  filter: none;
+  transition: 1s;
+}
+#botonAgregar:hover {
+  transition: 0.5s;
+  background-color: $colorBtnAgregarHover;
+  cursor: pointer;
+}

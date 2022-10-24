@@ -1,0 +1,58 @@
+.panel {
+  padding: 2rem 2rem;
+  background-color: $colorBg;
+  :nth-child(even) {
+    background-color: $colorA;
+  }
+  :nth-child(even):hover {
+    background-color: $colorAHover;
+  }
+  :nth-child(odd) {
+    background-color: $colorB;
+  }
+  :nth-child(odd):hover {
+    background-color: $colorBHover;
+  }
+  //Notas
+  .nota {
+    height: 40vh;
+    width: 22vw;
+    margin: 0 1.5vw;
+    border-bottom-left-radius: 15%;
+    border-bottom-right-radius: 15%;
+    filter: drop-shadow(0.5rem 0.5rem 0.5rem #585858);
+    .titulo {
+      height: 10vh;
+      padding: 0.5rem 0 0 0;
+      border-bottom: 2px solid black;
+      background-color: $colorTransparente;
+    }
+    .texto {
+      padding: 1rem 1rem 0.5rem 1rem;
+      background-color: inherit;
+      size-adjust: inherit;
+    }
+    .btnDiv {
+      position: absolute;
+      z-index: 2;
+      background-color: rgba(0, 0, 0, 0);
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: flex-end;
+      width: inherit;
+      > button {
+        margin-right: 0.1em;
+        border-radius: 29% 71% 29% 71% / 71% 29% 71% 29%;
+        background-color: lavender;
+      }
+      > button:hover {
+        background-color: rgb(156, 156, 175);
+        cursor: pointer;
+      }
+      > button:active {
+        transform: translateY(10%);
+      }
+    }
+  }
+}

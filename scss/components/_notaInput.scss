@@ -1,0 +1,42 @@
+.panelPop {
+  width: 100vw;
+  height: 100%;
+  position: fixed;
+  z-index: 3;
+  background-color: $colorTransparenteOscuro;
+  animation-name: prueba;
+  animation-duration: 0.5s;
+  .notaInput {
+    position: fixed;
+    z-index: 1;
+    height: 60vh;
+    width: 40vw;
+    margin: 0 1.5vw;
+    top: 32vh;
+    left: 30vw;
+    .titulo {
+      width: inherit;
+      height: 10vh;
+      background-color: $colorA;
+    }
+    .texto {
+      width: inherit;
+      height: 45vh;
+      background-color: $colorA;
+    }
+    .notaInputBotones {
+      border: 2px solid black;
+      border-bottom: 0px;
+      height: 4vh;
+      background-color: gray;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      > * {
+        width: 1.5rem;
+        border-radius: 50% 50% 50% 50% / 76% 76% 24% 24%;
+        background-color: lavender;
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/style.css" />
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alkalami&family=Gemunu+Libre:wght@800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- FONT AWESOME -->
+    <script
+      src="https://kit.fontawesome.com/d343ad545d.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>AppNotas</title>
+  </head>
+  <body id="body">
+    <!-- HEADER -->
+    <header>
+      <section class="navbar">
+        <h1>Fast Notes!</h1>
+        <div>
+          <select name="" id="selector">
+            <option id="selector1" value="">Sort by last added</option>
+            <option id="selector2" value="">Sort by recently modified</option>
+            <option id="selector3" value="">Sort alphabetically<b></b></option>
+          </select>
+        </div>
+        <form action="">
+          <input id="busqueda" type="search" placeholder="  🔎  filter" />
+        </form>
+      </section>
+      <!-- ESPACIADOR -->
+      <!-- <div class="headerEspaciador"></div> -->
+    </header>
+    <!-- MAIN -->
+    <main>
+      <section id="seccionPaneles">
+        <!-- Panel de notas -->
+        <section id="panel" class="panel">
+          <button id="botonAgregar">✍</button>
+        </section>
+      </section>
+    </main>
+    <!-- FOOTER -->
+    <footer>
+      <div>
+        <ul>
+          <li><h3>Developed By :</h3></li>
+          <li><strong> © Iván Fuentes</strong></li>
+          <li class="iconos">
+            <a href="https://github.com/navifuentes"
+              ><i class="fa-brands fa-github"></i
+            ></a>
+            <a href="https://www.instagram.com/navi.fuentes/"
+              ><i class="fa-brands fa-instagram"></i
+            ></a>
+          </li>
+        </ul>
+        <form action="#" method="get">
+          <h3>Contact me:</h3>
+          <input type="text" placeholder=" 📧 ejemplo@email.com" />
+          <textarea
+            name="Comentario"
+            placeholder=" ✍ Leave a comment "
+            cols="40"
+          ></textarea>
+          <input type="submit" value="Send" />
+        </form>
+      </div>
+      <div></div>
+    </footer>
+    <script src="./js/appFunciones.js"></script>
+    <script src="./js/filters.js"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+// Panel de notas
+#seccionPaneles {
+  background-color: $colorBg;
+  min-height: 58vh;
+  width: 100%;
+  .panel {
+    min-height: 58vh;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 25vw 25vw 25vw;
+    grid-row-gap: 2em;
+    justify-content: center;
+    align-items: center;
+    input {
+      height: 1rem;
+    }
+  }
+}

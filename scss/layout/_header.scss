@@ -1,0 +1,32 @@
+.navbar {
+  height: 18vh;
+  width: 100vw;
+  background-color: $colorD;
+  border-bottom: 1rem solid $colorTransparente;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  h1 {
+    margin: 1rem 0 0 3rem;
+  }
+  div {
+    display: flex;
+    align-items: flex-end;
+    margin: 0 0 0.5rem 0;
+    select {
+      padding: 2px;
+    }
+  }
+  form {
+    display: flex;
+    align-items: flex-end;
+    margin: 0 2rem 0.5rem 0;
+    input {
+      padding: 2px;
+    }
+  }
+}
+.headerEspaciador {
+  height: 18vh;
+  background-color: black;
+}
