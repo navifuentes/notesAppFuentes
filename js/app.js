@@ -1,15 +1,20 @@
 // Array vacio para pushear las notas
-const listaDeNotas = JSON.parse(localStorage.getItem("listaDeNotas")) || [];
+let listaDeNotas = JSON.parse(localStorage.getItem("listaDeNotas")) || [];
 const notasEncontradas = [];
+let notaStorage = JSON.parse(sessionStorage.getItem("notaStorage")) || [];
 //QuerySelector
 const body = document.getElementById("body");
 const seccionPaneles = document.getElementById("seccionPaneles");
 const panel = document.getElementById("panel");
+const panelPop = document.getElementById("panelPop");
 const selector = document.getElementById("selector");
 const busqueda = document.getElementById("busqueda");
 const btnAgregar = document.getElementById("botonAgregar");
-// Class Constructor de lista de notas
-class ConstructorDeNotas {
+let btnXDivCont = "";
+
+// CONSTRUCTORES
+// Objeto Nota
+class Nota {
   constructor(titulo, texto, fecha, idNota) {
     this.titulo = titulo;
     this.texto = texto;
@@ -17,7 +22,7 @@ class ConstructorDeNotas {
     this.idNota = idNota;
   }
 }
-//Funcion  imprimir nota
+//Funcion  imprimir nota desde Array
 const imprimirNotas = (array) => {
   array.forEach((nota) => {
     let notaScan = document.createElement("div");
@@ -44,37 +49,53 @@ const imprimirNotas = (array) => {
     notaScan.append(notaScanTexto);
     panel.append(notaScan);
   });
+  //prepara evento eliminar
+  btnXArray();
   return array;
 };
-// Funcion Pasar Nueva nota a localStorage
+// Funcion Crear nota pushear al array
+// se guarda guarda un Constructor en el array
 const notaNuevaStorage = () => {
   let titulo = document.querySelector("#notaInputTitulo").value;
   let texto = document.querySelector("#notaInputTexto").value;
   let fecha = new Date();
-  let idNota = listaDeNotas.length;
-  let notaNueva = new ConstructorDeNotas(titulo, texto, fecha, idNota);
-  listaDeNotas.push(notaNueva);
-  localStorage.setItem("listaDeNotas", JSON.stringify(listaDeNotas));
+  let idNota = listaDeNotas.length + 1;
+  let notaNueva = new Nota(titulo, texto, fecha, idNota);
+  sessionStorage.setItem("notaStorage", JSON.stringify(notaNueva));
+  let notaStorage = JSON.parse(sessionStorage.getItem("notaStorage"));
+  listaDeNotas.push(notaStorage);
+  pasarALocalStorage(listaDeNotas);
   return listaDeNotas;
 };
-// Funcion Pasar notas Sin Imprimir
-const notasSinImprimir = () => {
-  if (panel.childElementCount === 1) {
-    imprimirNotas(listaDeNotas);
-  } else if (panel.childElementCount > 1) {
-    let checkNota = panel.lastChild;
-    let checkNotaId = parseInt(checkNota.getAttribute("id")) + 1;
-    if (checkNotaId < listaDeNotas.length) {
-      limpiarPanel();
-      imprimirNotas(listaDeNotas);
-
-      /*       let listaSinImpr = listaDeNotas.splice(checkNotaId);
-      limpiarPanel();
-      let reListaDeNotas = listaDeNotas.concat(listaSinImpr);
-      imprimirNotas(reListaDeNotas)
-      console.log(reListaDeNotas); */
-    }
-  }
+//Funcion parsear Nota a Session Storage
+const parsearSession = (element) => {
+  //crear una Nota y pushear al Session Storage
+  sessionStorage.removeItem("notaStorage");
+  let btnXDiv = element.parentElement;
+  btnXDivCont = btnXDiv.parentElement;
+  let elId = parseInt(btnXDivCont.id);
+  let notaParse = listaDeNotas.filter((nota) => nota.idNota == elId);
+  let notaLog = notaParse[0];
+  let titulo = notaLog.titulo;
+  let texto = notaLog.texto;
+  let fecha = notaLog.fecha;
+  let idNota = notaLog.idNota;
+  let notaNueva = new Nota(titulo, texto, fecha, idNota);
+  sessionStorage.setItem("notaStorage", JSON.stringify(notaNueva));
+  notaStorage = JSON.parse(sessionStorage.getItem("notaStorage"));
+};
+// Funcion LLevar Array a LocalStorage
+// purga Constructores
+const pasarALocalStorage = (array) => {
+  localStorage.setItem("listaDeNotas", JSON.stringify(array));
+  JSON.parse(localStorage.getItem("listaDeNotas"));
+};
+//Funcion traer lista LocalStorage --> consola
+const actualizarLista = () => {
+  let listaActualizada = JSON.parse(localStorage.getItem("listaDeNotas"));
+  limpiarPanel();
+  imprimirNotas(listaActualizada);
+  listaDeNotas = JSON.parse(localStorage.getItem("listaDeNotas"));
 };
 //Limpiar Panel
 const limpiarPanel = () => {
@@ -82,13 +103,29 @@ const limpiarPanel = () => {
   panel.innerHTML = ``;
   panel.insertAdjacentElement("afterbegin", btnAgregar);
 };
+// Funcion Pasar notas Sin Imprimir
+const funcionSinImprimir = () => {
+  let checkNota = panel.lastChild;
+  let checkNotaId = parseInt(checkNota.getAttribute("id"));
+  return checkNotaId < listaDeNotas.length
+    ? (limpiarPanel(), imprimirNotas(listaDeNotas))
+    : false;
+};
+// Funcion Pasar notas Sin Imprimir
+const notasSinImprimir = () => {
+  if (panel.childElementCount === 1) {
+    imprimirNotas(listaDeNotas);
+  } else {
+    funcionSinImprimir();
+  }
+};
 // Funcion Salir del Pop Nota Input
 const salirPanelPop = () => {
-  let notaNueva = document.getElementById("panelPop");
-  notaNueva.remove();
+  let panelPop = document.getElementById("panelPop");
+  panelPop.remove();
 };
-//Boton Agregar y eventos
-btnAgregar.onclick = () => {
+//Funcion Crear Pop Nota Input
+const crearPanelPop = () => {
   let notaInput = document.createElement("section");
   notaInput.setAttribute("id", "panelPop");
   notaInput.setAttribute("class", "panelPop");
@@ -103,6 +140,19 @@ btnAgregar.onclick = () => {
                           </div>  
                           `;
   body.insertAdjacentElement("afterbegin", notaInput);
+};
+//Funcion eliminar nota
+const eliminar = () => {
+  let parseIntId = parseInt(btnXDivCont.id);
+  let listaNotasFilter = listaDeNotas.filter(
+    (nota) => nota.idNota !== parseIntId
+  );
+  pasarALocalStorage(listaNotasFilter);
+  btnXDivCont.remove();
+};
+// Evento Agregar y eventos
+btnAgregar.onclick = () => {
+  crearPanelPop();
   //Boton Salir
   let notaPopBotonSalir = document.querySelector(".botonSalir");
   notaPopBotonSalir.onclick = (e) => {
@@ -112,7 +162,24 @@ btnAgregar.onclick = () => {
   let notaPopBotonGuardar = document.querySelector(".botonGuardar");
   notaPopBotonGuardar.onclick = (e) => {
     notaNuevaStorage();
-    notasSinImprimir();
+    limpiarPanel();
+    imprimirNotas(listaDeNotas);
     salirPanelPop();
   };
 };
+// Evento Eliminar nota
+const btnXArray = () => {
+  btnXLista = document.querySelectorAll(".btnX");
+  btnXLista.forEach((element) => {
+    element.onclick = (e) => {
+      btnXLista = document.querySelectorAll(".btnX");
+      //stringify
+      parsearSession(element);
+      console.log(notaStorage);
+      eliminar();
+      actualizarLista();
+    };
+  });
+  return listaDeNotas;
+};
+

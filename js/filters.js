@@ -86,5 +86,3 @@ function buscarTexto(txt) {
   limpiarPanel();
   imprimirNotas(notasEncontradas);
 }
-
-imprimirNotas(listaDeNotas);
