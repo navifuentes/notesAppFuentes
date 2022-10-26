@@ -150,36 +150,87 @@ const eliminar = () => {
   pasarALocalStorage(listaNotasFilter);
   btnXDivCont.remove();
 };
-// Evento Agregar y eventos
-btnAgregar.onclick = () => {
-  crearPanelPop();
-  //Boton Salir
-  let notaPopBotonSalir = document.querySelector(".botonSalir");
-  notaPopBotonSalir.onclick = (e) => {
-    salirPanelPop();
-  };
-  //Boton Guardar
-  let notaPopBotonGuardar = document.querySelector(".botonGuardar");
-  notaPopBotonGuardar.onclick = (e) => {
-    notaNuevaStorage();
-    limpiarPanel();
-    imprimirNotas(listaDeNotas);
-    salirPanelPop();
-  };
-};
-// Evento Eliminar nota
-const btnXArray = () => {
-  btnXLista = document.querySelectorAll(".btnX");
-  btnXLista.forEach((element) => {
-    element.onclick = (e) => {
-      btnXLista = document.querySelectorAll(".btnX");
-      //stringify
-      parsearSession(element);
-      console.log(notaStorage);
-      eliminar();
-      actualizarLista();
-    };
+//funcion para buscar una string en las notas
+//pasa todo a LowerCase
+function buscarTexto(txt) {
+  notasEncontradas.length = 0;
+  listaDeNotas.forEach((nota) => {
+    //Pasar los strings a minuscula
+    let stringMinusculas = txt.toLowerCase();
+    let textoMinusculas = nota.texto.toLowerCase();
+    let tituloMinusculas = nota.titulo.toLowerCase();
+    //comparar los strings
+    if (
+      textoMinusculas.includes(stringMinusculas) ||
+      tituloMinusculas.includes(stringMinusculas)
+    ) {
+      notasEncontradas.push(nota);
+    }
   });
-  return listaDeNotas;
+}
+//Funcion Sort Lista
+const sortLista = () => {
+  let sort = selector.selectedIndex;
+  if (sort === 0) {
+    ordenarNotasPorFecha();
+    buscarTexto(busqueda.value);
+  } else if (sort === 2) {
+    ordenarNotasAlfabeticamente();
+    buscarTexto(busqueda.value);
+  } else if (sort === 1) {
+    ordenarNotasPorAdd();
+    buscarTexto(busqueda.value);
+  }
 };
-
+//Ordenar por nombre
+const ordenarNotasAlfabeticamente = () => {
+  listaDeNotas.sort((a, b) => {
+    if (
+      a.titulo.toLowerCase() < b.titulo.toLowerCase() &&
+      a.texto.toLowerCase() < b.texto.toLowerCase()
+    ) {
+      return -2;
+    } else if (
+      a.titulo.toLowerCase() > b.titulo.toLowerCase() &&
+      a.texto.toLowerCase() > b.texto.toLowerCase()
+    ) {
+      return -2;
+    } else if (
+      a.titulo.toLowerCase() < b.titulo.toLowerCase() ||
+      a.texto.toLowerCase() < b.texto.toLowerCase()
+    ) {
+      return -1;
+    } else if (
+      a.titulo.toLowerCase() > b.titulo.toLowerCase() ||
+      a.texto.toLowerCase() > b.texto.toLowerCase()
+    ) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+};
+//Ordenar por Fecha Latest added
+const ordenarNotasPorFecha = () => {
+  listaDeNotas.sort((a, b) => {
+    if (a.fecha > b.fecha) {
+      return -1;
+    } else if (b.fecha > a.fecha) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+};
+//Ordenar por fecha New added
+const ordenarNotasPorAdd = () => {
+  listaDeNotas.sort((a, b) => {
+    if (b.fecha > a.fecha) {
+      return -1;
+    } else if (a.fecha > b.fecha) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+};
