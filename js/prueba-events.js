@@ -1,15 +1,31 @@
-//    EVENTOS*********
-// Evento BtnAgregar & NotaInput
+//    EVENTOS*****
+// Evento BtnAgregar & Notanput
 btnAgregar.onclick = () => {
   setPanelPop();
-  //Boton Guardar
   let notaPopBotonGuardar = document.querySelector(".botonGuardar");
   notaPopBotonGuardar.onclick = (e) => {
     nuevaNotaInput();
+    parsearLista();
+    parsearEliminados();
     limpiarPanel();
     lista.imprimir(listaEliminados);
     panelPop.remove();
   };
+};
+selector.onchange = (e) => {
+  sortLista();
+  buscarTexto(busqueda.value);
+  limpiarPanel();
+  lista.imprimir(notasEncontradas);
+};
+
+busqueda.oninput = (e) => {
+  e.preventDefault();
+  console.log(busqueda.value);
+  sortLista();
+  buscarTexto(busqueda.value);
+  limpiarPanel();
+  lista.imprimir(notasEncontradas);
 };
 // Evento Eliminar nota
 const btnXArray = () => {
@@ -25,17 +41,4 @@ const btnXArray = () => {
     };
   });
   return listaDeNotas;
-};
-//Eventos Sort
-selector.onchange = (e) => {
-  sortLista();
-  limpiarPanel();
-  imprimirNotas(notasEncontradas);
-};
-//Evento Busqueda
-busqueda.oninput = (e) => {
-  sortLista(busqueda.value);
-  console.log(busqueda.value);
-  limpiarPanel();
-  imprimirNotas(notasEncontradas);
 };

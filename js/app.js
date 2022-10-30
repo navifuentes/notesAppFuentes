@@ -22,6 +22,10 @@ class Nota {
     this.idNota = idNota;
   }
 }
+//Funcion cambiar formato fecha
+const dateToString = () => {
+  this.fecha.toDateString();
+};
 //Funcion  imprimir nota desde Array
 const imprimirNotas = (array) => {
   array.forEach((nota) => {
@@ -53,24 +57,36 @@ const imprimirNotas = (array) => {
   btnXArray();
   return array;
 };
-// Funcion Crear nota pushear al array
+// Guardar en todas las instancias
+const parseAll = (a) => {
+  sessionStorage.removeItem("notaStorage");
+  sessionStorage.setItem("notaStorage", JSON.stringify(a));
+  let notaStorage = JSON.parse(sessionStorage.getItem("notaStorage"));
+  listaDeNotas.push(notaStorage);
+  pasarALocalStorage(listaDeNotas);
+  return listaDeNotas;
+}
 // se guarda guarda un Constructor en el array
-const notaNuevaStorage = () => {
+const notaConstructorInput = () => {
   let titulo = document.querySelector("#notaInputTitulo").value;
   let texto = document.querySelector("#notaInputTexto").value;
   let fecha = new Date();
   let idNota = listaDeNotas.length + 1;
   let notaNueva = new Nota(titulo, texto, fecha, idNota);
-  sessionStorage.setItem("notaStorage", JSON.stringify(notaNueva));
-  let notaStorage = JSON.parse(sessionStorage.getItem("notaStorage"));
-  listaDeNotas.push(notaStorage);
-  pasarALocalStorage(listaDeNotas);
+  parseAll(notaNueva);  
   return listaDeNotas;
+  
+  // sessionStorage.setItem("notaStorage", JSON.stringify(notaNueva));
+  // let notaStorage = JSON.parse(sessionStorage.getItem("notaStorage"));
+  // listaDeNotas.push(notaStorage);
+  // pasarALocalStorage(listaDeNotas);
+  // return listaDeNotas;
 };
 //Funcion parsear Nota a Session Storage
 const parsearSession = (element) => {
   //crear una Nota y pushear al Session Storage
   sessionStorage.removeItem("notaStorage");
+  //herencia
   let btnXDiv = element.parentElement;
   btnXDivCont = btnXDiv.parentElement;
   let elId = parseInt(btnXDivCont.id);
@@ -147,7 +163,6 @@ const eliminar = () => {
   let listaNotasFilter = listaDeNotas.filter(
     (nota) => nota.idNota !== parseIntId
   );
-  pasarALocalStorage(listaNotasFilter);
   btnXDivCont.remove();
 };
 //funcion para buscar una string en las notas
