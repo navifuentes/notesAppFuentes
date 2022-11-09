@@ -115,17 +115,21 @@ busqueda.oninput = (e) => {
 
 //API CLIMA
 const getClima = async () => {
-  let response = await fetch(
-    `https:api.openweathermap.org/data/2.5/weather?lat=${latitud}&lon=${longitud}&units=metric&lang=es&appid=2faad048b71379a1114e608f97d87f93`
-  );
-  let result = await response.json();
-  let cityName = result.name;
-  let tipoClima = result.weather[0].description;
-  let temperatura = Math.floor(result.main.feels_like);
-  console.log(cityName);
-  console.log(tipoClima);
-  console.log(temperatura);
-  climaApp.innerHTML = `${cityName}, ${temperatura}°C - ${tipoClima}`;
+  try {
+    let response = await fetch(
+      `https:api.openweathermap.org/data/2.5/weather?lat=${latitud}&lon=${longitud}&units=metric&lang=es&appid=2faad048b71379a1114e608f97d87f93`
+    );
+    let result = await response.json();
+    let cityName = result.name;
+    let tipoClima = result.weather[0].description;
+    let temperatura = Math.floor(result.main.feels_like);
+    console.log(cityName);
+    console.log(tipoClima);
+    console.log(temperatura);
+    climaApp.innerHTML = `${cityName}, ${temperatura}°C - ${tipoClima}`;
+  } catch (error) {
+    console.log(error);
+  }
 };
 //GEO LOCATION
 const getCoords = (position) => {
