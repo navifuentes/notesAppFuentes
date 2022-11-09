@@ -1,4 +1,5 @@
 let listaStorage = JSON.parse(localStorage.getItem("listaStorage")) || [];
+let lista = [];
 let listaEliminados = [];
 let btnAgregar = document.getElementById("botonAgregar");
 const panelPop = document.getElementById("panelPop");
@@ -66,9 +67,6 @@ class Nota {
       case panel2:
         panel2Grid.innerHTML += `
         <div class="nota" id="${this.idNota}">
-          <div class="btnDiv">
-            <button class="btnRecicle">♻</button>
-          </div>
           <div class="titulo">${this.titulo}</div>
           <div class="texto">${this.texto}</div>
         </div>
