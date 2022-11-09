@@ -148,7 +148,6 @@ Array.prototype.printArray = function (panelIdName) {
   this.forEach((nota) => {
     copy = new Nota(nota.titulo, nota.texto, nota.fecha, nota.idNota);
     copy.imprimir(panelIdName);
-    // this == listaEliminados ? copy.imprimir(panel2) : copy.imprimir(panel);
   });
 };
 Array.prototype.storage = function (name) {

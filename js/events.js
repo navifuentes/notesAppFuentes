@@ -51,8 +51,6 @@ const eventsNotaOpt = () => {
       eliminar();
       panelGrid = document.getElementById("panel2Grid");
       panelGrid.innerHTML = "";
-      ////
-      // cambiar listaEliminados por nota.imprimir(panel2)
       listaEliminados.printArray(panel2);
       panelGrid = document.getElementById("panelGrid");
       panelGrid.insertAdjacentElement("afterbegin", btnAgregar);
