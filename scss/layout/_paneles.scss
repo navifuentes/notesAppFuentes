@@ -1,0 +1,52 @@
+.p1 {
+  display: block;
+}
+.p2 {
+  display: none;
+}
+.panelGrid {
+  display: grid;
+  grid-template-columns: 25vw 25vw 25vw;
+  grid-row-gap: 2em;
+  justify-content: center;
+  align-items: center;
+  background-color: $colorBg;
+}
+
+.divPanelBtn {
+  background-color: $colorTransparente;
+  display: flex;
+  flex-direction: row;
+  button {
+    background-color: $colorA;
+    font-weight: bolder;
+    color: black;
+    margin: 0.2rem 0.2rem 0 0.2rem;
+    padding: 0.5em;
+    border: 2px solid indianred;
+    border-bottom: 0.5rem solid indianred;
+  }
+  button:hover {
+    background-color: $colorAHover;
+    cursor: pointer;
+  }
+  button:active {
+    transform: scale(1.05);
+  }
+
+  #bntPanelAgregar {
+    padding: 0;
+    width: 2rem;
+    font-size: 2em;
+    color: darkgreen;
+  }
+  div{
+    position: absolute;
+    right: 1vw;
+    background-color: inherit;
+    padding: 0.5rem;
+    font-weight: bolder ;
+    color: black;
+    border-bottom: 0.5rem solid cornflowerblue;
+  }
+}

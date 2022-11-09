@@ -13,11 +13,17 @@ h3 {
   font-size: 2rem;
   text-align: center; }
 
-@keyframes prueba {
+@keyframes panelIn {
   from {
     transform: translateX(-200%); }
   to {
     transform: translateX(0%); } }
+
+@keyframes panelOut {
+  from {
+    transform: translateX(0%); }
+  to {
+    transform: translateX(-200%); } }
 
 * {
   margin: 0;
@@ -61,12 +67,7 @@ h3 {
   #seccionPaneles .panel {
     min-height: 58vh;
     width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 25vw 25vw 25vw;
-    grid-row-gap: 2em;
-    justify-content: center;
-    align-items: center; }
+    height: 100%; }
     #seccionPaneles .panel input {
       height: 1rem; }
 
@@ -98,50 +99,111 @@ footer {
       flex-direction: row;
       justify-content: space-evenly; }
 
+.p1 {
+  display: block; }
+
+.p2 {
+  display: none; }
+
+.panelGrid {
+  display: grid;
+  grid-template-columns: 25vw 25vw 25vw;
+  grid-row-gap: 2em;
+  justify-content: center;
+  align-items: center;
+  background-color: #ef8354; }
+
+.divPanelBtn {
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row; }
+  .divPanelBtn button {
+    background-color: #fdd649;
+    font-weight: bolder;
+    color: black;
+    margin: 0.2rem 0.2rem 0 0.2rem;
+    padding: 0.5em;
+    border: 2px solid indianred;
+    border-bottom: 0.5rem solid indianred; }
+  .divPanelBtn button:hover {
+    background-color: #ad922e;
+    cursor: pointer; }
+  .divPanelBtn button:active {
+    transform: scale(1.05); }
+  .divPanelBtn #bntPanelAgregar {
+    padding: 0;
+    width: 2rem;
+    font-size: 2em;
+    color: darkgreen; }
+  .divPanelBtn div {
+    position: absolute;
+    right: 1vw;
+    background-color: inherit;
+    padding: 0.5rem;
+    font-weight: bolder;
+    color: black;
+    border-bottom: 0.5rem solid cornflowerblue; }
+
 .panel {
   padding: 2rem 2rem;
   background-color: #ef8354; }
-  .panel :nth-child(even) {
+  .panel .panelGrid :nth-child(even) {
     background-color: #fdd649; }
-  .panel :nth-child(even):hover {
+  .panel .panelGrid :nth-child(even):hover {
     background-color: #ad922e; }
-  .panel :nth-child(odd) {
+  .panel .panelGrid :nth-child(odd) {
     background-color: #6699cc; }
-  .panel :nth-child(odd):hover {
+  .panel .panelGrid :nth-child(odd):hover {
     background-color: #3a5a7a; }
-  .panel .nota {
+  .panel .panelGrid .nota {
     height: 40vh;
     width: 22vw;
     margin: 0 1.5vw;
     border-bottom-left-radius: 15%;
     border-bottom-right-radius: 15%;
     filter: drop-shadow(0.5rem 0.5rem 0.5rem #585858); }
-    .panel .nota .titulo {
+    .panel .panelGrid .nota .titulo {
+      vertical-align: bottom;
+      text-align: center;
+      font-size: 1.5rem;
       height: 10vh;
-      padding: 0.5rem 0 0 0;
       border-bottom: 2px solid black;
-      background-color: rgba(0, 0, 0, 0.2); }
-    .panel .nota .texto {
+      background-color: rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: clip;
+      position: relative; }
+    .panel .panelGrid .nota .titulo::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      height: 100%;
+      width: 7vw;
+      background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.6));
+      pointer-events: none; }
+    .panel .panelGrid .nota .texto {
+      height: auto;
       padding: 1rem 1rem 0.5rem 1rem;
       background-color: inherit;
       size-adjust: inherit; }
-    .panel .nota .btnDiv {
-      position: absolute;
+    .panel .panelGrid .nota .btnDiv {
+      height: 0px;
       z-index: 2;
-      background-color: rgba(0, 0, 0, 0);
       display: flex;
       flex-direction: row;
-      justify-content: flex-end;
+      justify-content: flex-start;
       align-items: flex-end;
-      width: inherit; }
-      .panel .nota .btnDiv > button {
+      width: inherit;
+      border-top-left-radius: 5%;
+      border-top-right-radius: 5%; }
+      .panel .panelGrid .nota .btnDiv > button {
         margin-right: 0.1em;
         border-radius: 29% 71% 29% 71% / 71% 29% 71% 29%;
         background-color: lavender; }
-      .panel .nota .btnDiv > button:hover {
+      .panel .panelGrid .nota .btnDiv > button:hover {
         background-color: #9c9caf;
         cursor: pointer; }
-      .panel .nota .btnDiv > button:active {
+      .panel .panelGrid .nota .btnDiv > button:active {
         transform: translateY(10%); }
 
 #botonAgregar {
@@ -166,15 +228,15 @@ footer {
   background-color: #356b46;
   cursor: pointer; }
 
-.panelPop {
+#panelPop {
   width: 100vw;
   height: 100%;
   position: fixed;
-  z-index: 3;
+  z-index: 1;
   background-color: rgba(0, 0, 0, 0.6);
-  animation-name: prueba;
+  animation-name: none;
   animation-duration: 0.5s; }
-  .panelPop .notaInput {
+  #panelPop .notaInput {
     position: fixed;
     z-index: 1;
     height: 60vh;
@@ -182,15 +244,15 @@ footer {
     margin: 0 1.5vw;
     top: 32vh;
     left: 30vw; }
-    .panelPop .notaInput .titulo {
+    #panelPop .notaInput .titulo {
       width: inherit;
       height: 10vh;
       background-color: #fdd649; }
-    .panelPop .notaInput .texto {
+    #panelPop .notaInput .texto {
       width: inherit;
       height: 45vh;
       background-color: #fdd649; }
-    .panelPop .notaInput .notaInputBotones {
+    #panelPop .notaInput .notaInputBotones {
       border: 2px solid black;
       border-bottom: 0px;
       height: 4vh;
@@ -198,7 +260,7 @@ footer {
       display: flex;
       flex-direction: row;
       justify-content: space-evenly; }
-      .panelPop .notaInput .notaInputBotones > * {
+      #panelPop .notaInput .notaInputBotones > * {
         width: 1.5rem;
         border-radius: 50% 50% 50% 50% / 76% 76% 24% 24%;
         background-color: lavender; }

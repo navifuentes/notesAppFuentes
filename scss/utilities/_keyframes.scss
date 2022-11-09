@@ -1,8 +1,17 @@
-@keyframes prueba {
+@keyframes panelIn {
   from {
     transform: translateX(-200%);
   }
   to {
     transform: translateX(0%);
   }
+}
+
+@keyframes panelOut {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-200%);
+  } 
 }

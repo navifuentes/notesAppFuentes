@@ -1,205 +1,113 @@
-// Array vacio para pushear las notas
-let listaDeNotas = JSON.parse(localStorage.getItem("listaDeNotas")) || [];
-const notasEncontradas = [];
-let notaStorage = JSON.parse(sessionStorage.getItem("notaStorage")) || [];
-//QuerySelector
-const body = document.getElementById("body");
-const seccionPaneles = document.getElementById("seccionPaneles");
-const panel = document.getElementById("panel");
+let listaStorage = JSON.parse(localStorage.getItem("listaStorage")) || [];
+let listaEliminados = [];
+let btnAgregar = document.getElementById("botonAgregar");
 const panelPop = document.getElementById("panelPop");
 const selector = document.getElementById("selector");
 const busqueda = document.getElementById("busqueda");
-const btnAgregar = document.getElementById("botonAgregar");
-let btnXDivCont = "";
+let panel = document.getElementById("panel");
+let panel2 = document.getElementById("panel2");
+let panelGrid = document.getElementById("panelGrid");
+let panel2Grid = document.getElementById("panel2Grid");
+const btnPopX = document.querySelector(".botonSalir");
+let btnPopSave = document.querySelector(".botonGuardar");
+let panelActivoLista = [];
+let panelFocus = "";
+let panelFocusId = "panel";
+const inputTitulo = document.getElementById("notaInputTitulo");
+const inputTexto = document.getElementById("notaInputTexto");
+let climaApp = document.getElementById("climaApp");
+let divPanelBtn = document.querySelector(".divPanelBtn");
 
-// CONSTRUCTORES
-// Objeto Nota
+//Clases *************************************************************************
 class Nota {
   constructor(titulo, texto, fecha, idNota) {
     this.titulo = titulo;
     this.texto = texto;
     this.fecha = fecha;
-    this.idNota = idNota;
+    this.idNota = parseInt(idNota);
+  }
+  getLowStr() {
+    return this.titulo.toLowerCase();
+  }
+  getTextoLowStr() {
+    return this.texto.toLowerCase();
+  }
+  push(array) {
+    return array.push(this);
+  }
+  scan() {
+    inputTitulo.value = this.titulo;
+    inputTexto.value = this.texto;
+    return this;
+  }
+  saveEdit() {
+    this.titulo = inputTitulo.value;
+    this.texto = inputTexto.value;
+    this.lastEdit = new Date();
+    return this;
+  }
+  imprimir(paneliDName) {
+    switch (paneliDName) {
+      case panel:
+        btnAgregar.remove();
+        panelGrid.innerHTML += `
+      <div class="nota ${this.idNota}" id="${this.idNota}">
+      <div class="btnDiv">
+      <button class="btnEdit">🖊</button>
+      <button class="btnX">❌</button>
+      </div>
+      <div class="titulo">${this.titulo}</div>
+      <div class="texto">${this.texto}</div>
+      </div>
+      `;
+        panelGrid.insertAdjacentElement("afterbegin", btnAgregar);
+
+        break;
+      case panel2:
+        panel2Grid.innerHTML += `
+        <div class="nota" id="${this.idNota}">
+          <div class="btnDiv">
+            <button class="btnRecicle">♻</button>
+          </div>
+          <div class="titulo">${this.titulo}</div>
+          <div class="texto">${this.texto}</div>
+        </div>
+        `;
+        break;
+      default:
+        console.log("not a number");
+        break;
+    }
   }
 }
-//Funcion cambiar formato fecha
-const dateToString = () => {
-  this.fecha.toDateString();
-};
-//Funcion  imprimir nota desde Array
-const imprimirNotas = (array) => {
-  array.forEach((nota) => {
-    let notaScan = document.createElement("div");
-    notaScan.setAttribute("class", "nota");
-    notaScan.setAttribute("id", nota.idNota);
-    let notaScanBtnDiv = document.createElement("div");
-    notaScanBtnDiv.setAttribute("class", "btnDiv");
-    let notaScanBtnX = document.createElement("button");
-    notaScanBtnX.setAttribute("class", "btnX");
-    notaScanBtnX.innerHTML = "❌";
-    let notaScanBtnEdit = document.createElement("button");
-    notaScanBtnEdit.setAttribute("class", "btnEdit");
-    notaScanBtnEdit.innerHTML = "🖊";
-    notaScanBtnDiv.append(notaScanBtnEdit);
-    notaScanBtnDiv.append(notaScanBtnX);
-    notaScan.append(notaScanBtnDiv);
-    let notaScanTitulo = document.createElement("div");
-    notaScanTitulo.setAttribute("class", "titulo");
-    notaScanTitulo.innerHTML = nota.titulo;
-    notaScan.append(notaScanTitulo);
-    let notaScanTexto = document.createElement("div");
-    notaScanTexto.setAttribute("class", "texto");
-    notaScanTexto.innerHTML = nota.texto;
-    notaScan.append(notaScanTexto);
-    panel.append(notaScan);
-  });
-  //prepara evento eliminar
-  btnXArray();
-  return array;
-};
-// Guardar en todas las instancias
-const parseAll = (a) => {
-  sessionStorage.removeItem("notaStorage");
-  sessionStorage.setItem("notaStorage", JSON.stringify(a));
-  let notaStorage = JSON.parse(sessionStorage.getItem("notaStorage"));
-  listaDeNotas.push(notaStorage);
-  pasarALocalStorage(listaDeNotas);
-  return listaDeNotas;
-}
-// se guarda guarda un Constructor en el array
-const notaConstructorInput = () => {
-  let titulo = document.querySelector("#notaInputTitulo").value;
-  let texto = document.querySelector("#notaInputTexto").value;
-  let fecha = new Date();
-  let idNota = listaDeNotas.length + 1;
-  let notaNueva = new Nota(titulo, texto, fecha, idNota);
-  parseAll(notaNueva);  
-  return listaDeNotas;
-  
-  // sessionStorage.setItem("notaStorage", JSON.stringify(notaNueva));
-  // let notaStorage = JSON.parse(sessionStorage.getItem("notaStorage"));
-  // listaDeNotas.push(notaStorage);
-  // pasarALocalStorage(listaDeNotas);
-  // return listaDeNotas;
-};
-//Funcion parsear Nota a Session Storage
-const parsearSession = (element) => {
-  //crear una Nota y pushear al Session Storage
-  sessionStorage.removeItem("notaStorage");
-  //herencia
-  let btnXDiv = element.parentElement;
-  btnXDivCont = btnXDiv.parentElement;
-  let elId = parseInt(btnXDivCont.id);
-  let notaParse = listaDeNotas.filter((nota) => nota.idNota == elId);
-  let notaLog = notaParse[0];
-  let titulo = notaLog.titulo;
-  let texto = notaLog.texto;
-  let fecha = notaLog.fecha;
-  let idNota = notaLog.idNota;
-  let notaNueva = new Nota(titulo, texto, fecha, idNota);
-  sessionStorage.setItem("notaStorage", JSON.stringify(notaNueva));
-  notaStorage = JSON.parse(sessionStorage.getItem("notaStorage"));
-};
-// Funcion LLevar Array a LocalStorage
-// purga Constructores
-const pasarALocalStorage = (array) => {
-  localStorage.setItem("listaDeNotas", JSON.stringify(array));
-  JSON.parse(localStorage.getItem("listaDeNotas"));
-};
-//Funcion traer lista LocalStorage --> consola
-const actualizarLista = () => {
-  let listaActualizada = JSON.parse(localStorage.getItem("listaDeNotas"));
-  limpiarPanel();
-  imprimirNotas(listaActualizada);
-  listaDeNotas = JSON.parse(localStorage.getItem("listaDeNotas"));
-};
-//Limpiar Panel
-const limpiarPanel = () => {
-  panel.removeChild(btnAgregar);
-  panel.innerHTML = ``;
-  panel.insertAdjacentElement("afterbegin", btnAgregar);
-};
-// Funcion Pasar notas Sin Imprimir
-const funcionSinImprimir = () => {
-  let checkNota = panel.lastChild;
-  let checkNotaId = parseInt(checkNota.getAttribute("id"));
-  return checkNotaId < listaDeNotas.length
-    ? (limpiarPanel(), imprimirNotas(listaDeNotas))
-    : false;
-};
-// Funcion Pasar notas Sin Imprimir
-const notasSinImprimir = () => {
-  if (panel.childElementCount === 1) {
-    imprimirNotas(listaDeNotas);
-  } else {
-    funcionSinImprimir();
-  }
-};
-// Funcion Salir del Pop Nota Input
-const salirPanelPop = () => {
-  let panelPop = document.getElementById("panelPop");
-  panelPop.remove();
-};
-//Funcion Crear Pop Nota Input
-const crearPanelPop = () => {
-  let notaInput = document.createElement("section");
-  notaInput.setAttribute("id", "panelPop");
-  notaInput.setAttribute("class", "panelPop");
-  notaInput.innerHTML = `
-                          <div class="notaInput">
-                            <div class="notaInputBotones">
-                              <button class="botonGuardar">✔</button>
-                              <button class="botonSalir">❌</button>
-                            </div>
-                            <input id="notaInputTitulo" type="text" placeholder="new note" class="titulo" />
-                            <textarea id="notaInputTexto" placeholder="📝" class="texto"></textarea>
-                          </div>  
-                          `;
-  body.insertAdjacentElement("afterbegin", notaInput);
-};
-//Funcion eliminar nota
-const eliminar = () => {
-  let parseIntId = parseInt(btnXDivCont.id);
-  let listaNotasFilter = listaDeNotas.filter(
-    (nota) => nota.idNota !== parseIntId
-  );
-  btnXDivCont.remove();
-};
-//funcion para buscar una string en las notas
-//pasa todo a LowerCase
-function buscarTexto(txt) {
-  notasEncontradas.length = 0;
-  listaDeNotas.forEach((nota) => {
-    //Pasar los strings a minuscula
-    let stringMinusculas = txt.toLowerCase();
-    let textoMinusculas = nota.texto.toLowerCase();
-    let tituloMinusculas = nota.titulo.toLowerCase();
-    //comparar los strings
-    if (
-      textoMinusculas.includes(stringMinusculas) ||
-      tituloMinusculas.includes(stringMinusculas)
-    ) {
-      notasEncontradas.push(nota);
+//ARRAYS *************************************************************************
+//Funciones sort
+Array.prototype.newFirst = function () {
+  this.sort((a, b) => {
+    if (a.fecha > b.fecha) {
+      return -1;
+    } else if (b.fecha > a.fecha) {
+      return 1;
+    } else {
+      return 0;
     }
   });
-}
-//Funcion Sort Lista
-const sortLista = () => {
-  let sort = selector.selectedIndex;
-  if (sort === 0) {
-    ordenarNotasPorFecha();
-    buscarTexto(busqueda.value);
-  } else if (sort === 2) {
-    ordenarNotasAlfabeticamente();
-    buscarTexto(busqueda.value);
-  } else if (sort === 1) {
-    ordenarNotasPorAdd();
-    buscarTexto(busqueda.value);
-  }
+  return this;
 };
-//Ordenar por nombre
-const ordenarNotasAlfabeticamente = () => {
-  listaDeNotas.sort((a, b) => {
+Array.prototype.oldFirst = function () {
+  this.sort((a, b) => {
+    if (b.fecha > a.fecha) {
+      return -1;
+    } else if (a.fecha > b.fecha) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
+  return this;
+};
+Array.prototype.aToZ = function () {
+  this.sort((a, b) => {
     if (
       a.titulo.toLowerCase() < b.titulo.toLowerCase() &&
       a.texto.toLowerCase() < b.texto.toLowerCase()
@@ -209,7 +117,7 @@ const ordenarNotasAlfabeticamente = () => {
       a.titulo.toLowerCase() > b.titulo.toLowerCase() &&
       a.texto.toLowerCase() > b.texto.toLowerCase()
     ) {
-      return -2;
+      return 2;
     } else if (
       a.titulo.toLowerCase() < b.titulo.toLowerCase() ||
       a.texto.toLowerCase() < b.texto.toLowerCase()
@@ -224,28 +132,145 @@ const ordenarNotasAlfabeticamente = () => {
       return 0;
     }
   });
+  return this;
 };
-//Ordenar por Fecha Latest added
-const ordenarNotasPorFecha = () => {
-  listaDeNotas.sort((a, b) => {
-    if (a.fecha > b.fecha) {
-      return -1;
-    } else if (b.fecha > a.fecha) {
-      return 1;
-    } else {
-      return 0;
-    }
+Array.prototype.searchTxt = function (txt) {
+  notasEncontradas = [];
+  this.forEach((nota) => {
+    copy = new Nota(nota.titulo, nota.texto, nota.fecha, nota.idNota);
+    notaTitulo = copy.getLowStr();
+    notaTexto = copy.getTextoLowStr();
+    notaTitulo.includes(txt.toLowerCase()) ||
+    notaTexto.includes(txt.toLowerCase())
+      ? copy.push(notasEncontradas)
+      : false;
   });
 };
-//Ordenar por fecha New added
-const ordenarNotasPorAdd = () => {
-  listaDeNotas.sort((a, b) => {
-    if (b.fecha > a.fecha) {
-      return -1;
-    } else if (a.fecha > b.fecha) {
-      return 1;
-    } else {
-      return 0;
+Array.prototype.printArray = function (panelIdName) {
+  this.forEach((nota) => {
+    copy = new Nota(nota.titulo, nota.texto, nota.fecha, nota.idNota);
+    copy.imprimir(panelIdName);
+    // this == listaEliminados ? copy.imprimir(panel2) : copy.imprimir(panel);
+  });
+};
+Array.prototype.storage = function (name) {
+  localStorage.setItem(`${name}`, JSON.stringify(this));
+  return this;
+};
+//FUNCIONES **********************************************************************
+const panelPopFunct = (estado) => {
+  estado == true
+    ? anime({
+        targets: "#panelPop",
+        translateX: ["-200%", "0%"],
+      })
+    : anime({
+        targets: "#panelPop",
+        translateX: ["0%", "-200%"],
+      });
+  return panelPop;
+};
+const parsearLista = () => {
+  localStorage.setItem("ListaParse", JSON.stringify(lista));
+  lista = JSON.parse(localStorage.getItem("ListaParse"));
+  return lista;
+};
+const limpiarPanel = (estado) => {
+  estado === true
+    ? ((panelGrid.innerHTML = ""), panelGrid.appendChild(btnAgregar))
+    : (panel2Grid.innerHTML = "");
+};
+const limpiarPanelPop = () => {
+  return (inputTitulo.value = ""), (inputTexto.value = "");
+};
+const openPanel = (num) => {
+  let paneles = new Array(...document.getElementsByClassName("panel"));
+  paneles.forEach((element) => {
+    element.style.display = "none";
+  });
+  switch (num) {
+    case 1: {
+      let panelDOM = document.getElementById("panel");
+      panelDOM.style.display = "block";
+      break;
     }
+    case 2: {
+      let panelDOM = document.getElementById("panel2");
+      panelDOM.style.display = "block";
+      break;
+    }
+    default: {
+      let panelDOM = document.getElementById("panel1");
+      panelDOM.style.display = "block";
+      break;
+    }
+  }
+};
+const getDomNotaId = (e) => {
+  btnsDiv = e.parentElement;
+  notaDiv = btnsDiv.parentElement;
+  notaPosition = parseInt(notaDiv.id);
+  return notaPosition;
+};
+const eliminar = () => {
+  notaDiv.remove();
+  listaBis = lista.filter((nota) => parseInt(notaDiv.id) == nota.idNota);
+  listaEliminados.push(listaBis[0]);
+  lista = lista.filter((nota) => parseInt(notaDiv.id) !== nota.idNota);
+  return lista;
+};
+const switchToEdit = (isTrue) => {
+  isTrue == true
+    ? btnPopSave.setAttribute("class", "botonEditar")
+    : btnPopSave.setAttribute("class", "botonGuardar");
+  return isTrue;
+};
+const eventSort = (array) => {
+  if (selector.selectedIndex === 0) {
+    array.oldFirst();
+    return array;
+  } else if (selector.selectedIndex === 1) {
+    array.newFirst();
+    return array;
+  } else if (selector.selectedIndex === 2) {
+    array.aToZ();
+    return array;
+  }
+};
+const checkPanel = () => {
+  let paneles = new Array(...document.getElementsByClassName("panel"));
+  paneles.forEach((element) => {
+    element.style.display == "block" ? (panelFocus = element) : false;
+  });
+  panelFocusId = panelFocus.id;
+  return panelFocusId;
+};
+const elegirLista = (x) => {
+  if (x == panel.id) {
+    lista4 = lista;
+  } else if (x == panel2.id) {
+    lista5 = listaEliminados;
+  }
+  console.log(x);
+};
+
+//ANIMACIONES
+const animarNota = (parametro) => {
+  let notaAnim = document.getElementById(`${parametro}`);
+  anime({
+    targets: notaAnim,
+    scale: [
+      { value: 1.1, easing: "easeOutSine", duration: 500 },
+      { value: 1, easing: "easeInOutQuad", duration: 1200 },
+    ],
+  });
+};
+const animarGrid = (nombrePanel) => {
+  anime({
+    targets: nombrePanel,
+    scale: [
+      { value: 0.9, easing: "easeOutSine", duration: 0 },
+      { value: 1, easing: "easeInOutQuad", duration: 500 },
+    ],
   });
 };

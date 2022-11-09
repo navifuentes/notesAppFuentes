@@ -21,14 +21,24 @@
     <title>AppNotas</title>
   </head>
   <body id="body">
+    <section id="panelPop">
+      <div class="notaInput">
+        <div class="notaInputBotones">
+          <button class="botonGuardar">✔</button>
+          <button class="botonSalir">❌</button>
+        </div>
+        <input id="notaInputTitulo" class="titulo" placeholder="new note" />
+        <textarea id="notaInputTexto" class="texto" placeholder="📝"></textarea>
+      </div>
+    </section>
     <!-- HEADER -->
     <header>
       <section class="navbar">
         <h1>Fast Notes!</h1>
         <div>
           <select name="" id="selector">
-            <option id="selector1" value="0">Sort by last added </option>
-            <option id="selector2" value="1">Sort by newly added </option>
+            <option id="selector1" value="0">Sort by last added</option>
+            <option id="selector2" value="1">Sort by newly added</option>
             <option id="selector3" value="2">Sort alphabetically<b></b></option>
           </select>
         </div>
@@ -43,8 +53,18 @@
     <main>
       <section id="seccionPaneles">
         <!-- Panel de notas -->
-        <section id="panel" class="panel">
-          <button id="botonAgregar">✍</button>
+        <div class="divPanelBtn">
+          <button id="btnPanel1">Panel De Notas 🗒</button>
+          <button id="btnPanel2">Eliminados 🗑</button>
+          <div id="climaApp">nqn - numero -textooooo</div>
+        </div>
+        <section id="panel" class="panel p1" style="display: block">
+          <div id="panelGrid" class="panelGrid">
+            <button id="botonAgregar">✍</button>
+          </div>
+        </section>
+        <section id="panel2" class="panel p2" style="display: none">
+          <div id="panel2Grid" class="panelGrid"></div>
         </section>
       </section>
     </main>
@@ -76,10 +96,8 @@
       </div>
       <div></div>
     </footer>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <!-- <script src="./js/app.js"></script>
-    <script src="./js/events.js"></script> -->
-    <script src="./js/prueba.js"></script>
-    <script src="./js/prueba-events.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.0.1/lib/anime.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/events.js"></script>
   </body>
 </html>
