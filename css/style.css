@@ -130,11 +130,6 @@ footer {
     cursor: pointer; }
   .divPanelBtn button:active {
     transform: scale(1.05); }
-  .divPanelBtn #bntPanelAgregar {
-    padding: 0;
-    width: 2rem;
-    font-size: 2em;
-    color: darkgreen; }
   .divPanelBtn div {
     position: absolute;
     right: 1vw;
@@ -142,7 +137,7 @@ footer {
     padding: 0.5rem;
     font-weight: bolder;
     color: black;
-    border-bottom: 0.5rem solid cornflowerblue; }
+    border-bottom: 0.5rem solid cyan; }
 
 .panel {
   padding: 2rem 2rem;
@@ -158,6 +153,7 @@ footer {
   .panel .panelGrid .nota {
     height: 40vh;
     width: 22vw;
+    max-height: 40vh;
     margin: 0 1.5vw;
     border-bottom-left-radius: 15%;
     border-bottom-right-radius: 15%;
@@ -182,10 +178,12 @@ footer {
       background-image: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.6));
       pointer-events: none; }
     .panel .panelGrid .nota .texto {
-      height: auto;
+      height: inherit;
       padding: 1rem 1rem 0.5rem 1rem;
       background-color: inherit;
-      size-adjust: inherit; }
+      size-adjust: inherit;
+      word-wrap: break-word;
+      overflow-y: auto; }
     .panel .panelGrid .nota .btnDiv {
       height: 0px;
       z-index: 2;

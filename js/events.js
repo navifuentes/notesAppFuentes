@@ -126,6 +126,7 @@ const getClima = async () => {
     console.log(cityName);
     console.log(tipoClima);
     console.log(temperatura);
+    console.log(result)
     climaApp.innerHTML = `${cityName}, ${temperatura}°C - ${tipoClima}`;
   } catch (error) {
     console.log(error);

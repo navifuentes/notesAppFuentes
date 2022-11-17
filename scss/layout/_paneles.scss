@@ -33,13 +33,6 @@
   button:active {
     transform: scale(1.05);
   }
-
-  #bntPanelAgregar {
-    padding: 0;
-    width: 2rem;
-    font-size: 2em;
-    color: darkgreen;
-  }
   div{
     position: absolute;
     right: 1vw;
@@ -47,6 +40,6 @@
     padding: 0.5rem;
     font-weight: bolder ;
     color: black;
-    border-bottom: 0.5rem solid cornflowerblue;
+    border-bottom: 0.5rem solid cyan;
   }
 }
